@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efficient PostgreSQL Todo App</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Task Manager</h1>
+        
+        <form action="/add" method="POST" class="todo-form">
+            <input type="text" name="title" placeholder="Add a new task..." required autocomplete="off">
+            <button type="submit">Add Task</button>
+        </form>
+
+        <ul class="todo-list">
+            <% if (todos.length === 0) { %>
+                <p class="empty-state">No tasks remaining! Dynamic productivity achieved.</p>
+            <% } else { %>
+                <% todos.forEach(todo => { %>
+                    <li class="todo-item <%= todo.completed ? 'completed' : '' %>">
+                        
+                        <form action="/update/<%= todo.id %>" method="POST" style="display: inline;">
+                            <button type="submit" class="status-btn">
+                                <%= todo.completed ? '✓' : '○' %>
+                            </button>
+                        </form>
+
+                        <span class="todo-title"><%= todo.title %></span>
+
+                        <form action="/delete/<%= todo.id %>" method="POST" style="display: inline;">
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+                    </li>
+                <% }) %>
+            <% } %>
+        </ul>
+    </div>
+</body>
+</html>
